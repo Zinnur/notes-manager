@@ -14,7 +14,7 @@ public class NoteLogMapper implements RowMapper<NoteLog> {
         noteLog.setId(resultSet.getInt("ID"));
         noteLog.setTitle(resultSet.getString("TITLE"));
         noteLog.setBody(resultSet.getString("BODY"));
-        noteLog.setFavourite(resultSet.getBoolean("ISFAVOURITE"));
+        noteLog.setFavourite(resultSet.getBoolean("IS_FAVOURITE"));
         noteLog.setCreatedAt(resultSet.getObject("CREATED_AT", LocalDateTime.class));
         return noteLog;
     }
