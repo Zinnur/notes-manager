@@ -1,0 +1,25 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert_data_notes_title1" author="zinnur.khaiatdinov"  dbms="postgresql">
+        <preConditions onFail="MARK_RAN">
+            <tableExists schemaName="app" tableName="notes"/>
+            <sqlCheck expectedResult="0">
+                select count(1)
+                from app.notes
+                where title = 'Title1'
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO app.notes (id, title, body, is_favourite, created_at)
+            VALUES (nextval('app.notes_seq'), 'Title1', 'Body1', false, now());
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

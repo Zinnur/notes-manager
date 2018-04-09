@@ -1,0 +1,47 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_sequence_notes_seq" author="zinnur.khaiatdinov" dbms="postgresql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="notes_seq" schemaName="app"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE SEQUENCE app.notes_seq;
+        </sql>
+    </changeSet>
+
+    <changeSet id="create_table_notes_for_app" author="zinnur.khaiatdinov" dbms="postgresql">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="notes" schemaName="app"/>
+            </not>
+            <sequenceExists sequenceName="notes_seq" schemaName="app"/>
+        </preConditions>
+        <sql>
+            CREATE TABLE app.notes (
+            id              INTEGER NOT NULL DEFAULT nextval('app.notes_seq'),
+            title      VARCHAR(100)    NOT NULL,
+            body       VARCHAR(300)    NOT NULL,
+            is_favourite               BOOLEAN         NOT NULL,
+            created_at              TIMESTAMP       NOT NULL,
+
+            CONSTRAINT notes_id_pk PRIMARY KEY (id)
+            );
+
+            COMMENT ON TABLE app.notes IS 'List of notes';
+            COMMENT ON COLUMN app.notes.id IS 'ID';
+            COMMENT ON COLUMN app.notes.title IS 'title';
+            COMMENT ON COLUMN app.notes.body IS 'body';
+            COMMENT ON COLUMN app.notes.is_favourite IS 'is_favourite';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
